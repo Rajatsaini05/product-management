@@ -15,7 +15,12 @@ import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { openSnackbar } from "../redux/snackbarSlice";
 import { useDispatch } from "react-redux";
 import validator from "validator";
-import { signIn, googleSignIn, findUserByEmail, resetPassword } from "../api/index";
+import {
+  signIn,
+  googleSignIn,
+  findUserByEmail,
+  resetPassword,
+} from "../api/index";
 import OTP from "./OTP";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -145,8 +150,7 @@ const ForgetPassword = styled.div`
   &:hover {
     color: ${({ theme }) => theme.primary};
   }
-
-  `;
+`;
 
 const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
   const [email, setEmail] = useState("");
@@ -250,7 +254,6 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
     }
   };
 
-
   //validate password
   const validatePassword = () => {
     if (newpassword.length < 8) {
@@ -269,8 +272,7 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
       setSamepassword(
         "Password must contain atleast one lowercase, uppercase, number and special character!"
       );
-    }
-    else {
+    } else {
       setSamepassword("");
       setPasswordCorrect(true);
     }
@@ -278,10 +280,7 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
 
   useEffect(() => {
     if (newpassword !== "") validatePassword();
-    if (
-      passwordCorrect
-      && newpassword === confirmedpassword
-    ) {
+    if (passwordCorrect && newpassword === confirmedpassword) {
       setSamepassword("");
       setResetDisabled(false);
     } else if (confirmedpassword !== "" && passwordCorrect) {
@@ -294,87 +293,90 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
     if (!resetDisabled) {
       setResetDisabled(true);
       setLoading(true);
-      findUserByEmail(email).then((res) => {
-        if (res.status === 200) {
-          setShowOTP(true);
+      findUserByEmail(email)
+        .then((res) => {
+          if (res.status === 200) {
+            setShowOTP(true);
+            setResetDisabled(false);
+            setLoading(false);
+          } else if (res.status === 202) {
+            setEmailError("User not found!");
+            setResetDisabled(false);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
           setResetDisabled(false);
           setLoading(false);
-        }
-        else if (res.status === 202) {
-          setEmailError("User not found!")
-          setResetDisabled(false);
-          setLoading(false);
-        }
-      }).catch((err) => {
-        setResetDisabled(false);
-        setLoading(false);
-        dispatch(
-          openSnackbar({
-            message: err.message,
-            severity: "error",
-          })
-        );
-      });
+          dispatch(
+            openSnackbar({
+              message: err.message,
+              severity: "error",
+            })
+          );
+        });
     }
-  }
+  };
 
   const performResetPassword = async () => {
     if (otpVerified) {
       setShowOTP(false);
       setResettingPassword(true);
-      await resetPassword(email, confirmedpassword).then((res) => {
-        if (res.status === 200) {
+      await resetPassword(email, confirmedpassword)
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(
+              openSnackbar({
+                message: "Password Reset Successfully",
+                severity: "success",
+              })
+            );
+            setShowForgotPassword(false);
+            setEmail("");
+            setNewpassword("");
+            setConfirmedpassword("");
+            setOtpVerified(false);
+            setResettingPassword(false);
+          }
+        })
+        .catch((err) => {
           dispatch(
             openSnackbar({
-              message: "Password Reset Successfully",
-              severity: "success",
+              message: err.message,
+              severity: "error",
             })
           );
-          setShowForgotPassword(false);
-          setEmail("");
-          setNewpassword("");
-          setConfirmedpassword("");
+          setShowOTP(false);
           setOtpVerified(false);
           setResettingPassword(false);
-        }
-      }).catch((err) => {
-        dispatch(
-          openSnackbar({
-            message: err.message,
-            severity: "error",
-          })
-        );
-        setShowOTP(false);
-        setOtpVerified(false);
-        setResettingPassword(false);
-      });
+        });
     }
-  }
+  };
   const closeForgetPassword = () => {
-    setShowForgotPassword(false)
-    setShowOTP(false)
-  }
+    setShowForgotPassword(false);
+    setShowOTP(false);
+  };
   useEffect(() => {
     performResetPassword();
   }, [otpVerified]);
-
 
   //Google SignIn
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       setLoading(true);
-      const user = await axios.get(
-        'https://www.googleapis.com/oauth2/v3/userinfo',
-        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } },
-      ).catch((err) => {
-        dispatch(loginFailure());
-        dispatch(
-          openSnackbar({
-            message: err.message,
-            severity: "error",
-          })
-        );
-      });
+      const user = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        })
+        .catch((err) => {
+          dispatch(loginFailure());
+          dispatch(
+            openSnackbar({
+              message: err.message,
+              severity: "error",
+            })
+          );
+        });
 
       googleSignIn({
         name: user.data.name,
@@ -404,7 +406,7 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
         }
       });
     },
-    onError: errorResponse => {
+    onError: (errorResponse) => {
       dispatch(loginFailure());
       setLoading(false);
       dispatch(
@@ -415,7 +417,6 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
       );
     },
   });
-
 
   return (
     <Modal open={true} onClose={() => setSignInOpen(false)}>
@@ -443,7 +444,8 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
                 ) : (
                   <>
                     <GoogleIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1000px-Google_%22G%22_Logo.svg.png?20210618182606" />
-                    Sign In with Google</>
+                    Sign In with Google
+                  </>
                 )}
               </OutlinedBox>
               <Divider>
@@ -487,7 +489,13 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
                 </IconButton>
               </OutlinedBox>
               <Error error={credentialError}>{credentialError}</Error>
-              <ForgetPassword onClick={() => { setShowForgotPassword(true) }}><b>Forgot password ?</b></ForgetPassword>
+              <ForgetPassword
+                onClick={() => {
+                  setShowForgotPassword(true);
+                }}
+              >
+                <b>Forgot password ?</b>
+              </ForgetPassword>
               <OutlinedBox
                 button={true}
                 activeButton={!disabled}
@@ -527,16 +535,31 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
                 right: "30px",
                 cursor: "pointer",
               }}
-              onClick={() => { closeForgetPassword() }}
+              onClick={() => {
+                closeForgetPassword();
+              }}
             />
-            {!showOTP ?
+            {!showOTP ? (
               <>
                 <Title>Reset Password</Title>
-                {resettingPassword ?
-                  <div style={{ padding: '12px 26px', marginBottom: '20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>Updating password<CircularProgress color="inherit" size={20} /></div>
-                  :
+                {resettingPassword ? (
+                  <div
+                    style={{
+                      padding: "12px 26px",
+                      marginBottom: "20px",
+                      textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "14px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Updating password
+                    <CircularProgress color="inherit" size={20} />
+                  </div>
+                ) : (
                   <>
-
                     <OutlinedBox style={{ marginTop: "24px" }}>
                       <EmailRounded
                         sx={{ fontSize: "20px" }}
@@ -573,7 +596,10 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
                       <IconButton
                         color="inherit"
                         onClick={() =>
-                          setValues({ ...values, showPassword: !values.showPassword })
+                          setValues({
+                            ...values,
+                            showPassword: !values.showPassword,
+                          })
                         }
                       >
                         {values.showPassword ? (
@@ -613,15 +639,18 @@ const SignIn = ({ setSignInOpen, setSignUpOpen }) => {
                       </Span>
                     </LoginText>
                   </>
-                }
+                )}
               </>
-
-              :
-              <OTP email={email} name="User" otpVerified={otpVerified} setOtpVerified={setOtpVerified} reason="FORGOTPASSWORD" />
-            }
-
+            ) : (
+              <OTP
+                email={email}
+                name="User"
+                otpVerified={otpVerified}
+                setOtpVerified={setOtpVerified}
+                reason="FORGOTPASSWORD"
+              />
+            )}
           </Wrapper>
-
         )}
       </Container>
     </Modal>

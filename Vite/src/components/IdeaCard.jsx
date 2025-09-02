@@ -33,7 +33,7 @@ const IdeaCard = ({ idea, no }) => {
   return (
     <Container>
       <Text>
-        <Span>{no + 1}) </Span>
+        <Span>{no + 1} </Span>
         {idea}
       </Text>
       <IcoButton>

@@ -208,24 +208,24 @@ const EmailId = styled.div`
 `;
 
 const Flex = styled.div`
-display: flex;
-flex-direction: row;
-gap: 2px;
-@media (max-width: 768px) {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  flex-direction: row;
+  gap: 2px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Access = styled.div`
-padding: 6px 10px;
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 12px;
-background-color: ${({ theme }) => theme.bgDark};
+  padding: 6px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background-color: ${({ theme }) => theme.bgDark};
 `;
 
 const Select = styled.select`
@@ -245,7 +245,6 @@ const Role = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 
 const InviteButton = styled.button`
   padding: 6px 14px;
@@ -311,8 +310,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
       .then((res) => {
         if (res.status === 200) {
           setUsers(res.data);
-        }
-        else {
+        } else {
           setUsers([]);
         }
       })
@@ -329,13 +327,16 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
     };
     if (selectedUsers.find((u) => u.id === User.id)) {
     } else {
-      setSelectedUsers([...selectedUsers, {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: role,
-        access: access,
-      }]);
+      setSelectedUsers([
+        ...selectedUsers,
+        {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: role,
+          access: access,
+        },
+      ]);
       setUsers([]);
       setAccess("");
       setRole("");
@@ -352,7 +353,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
     let teamInvite = false;
     if (teamInvite) {
       selectedUsers.map((user) => {
-        inviteTeamMembers(id, user,token)
+        inviteTeamMembers(id, user, token)
           .then((res) => {
             console.log(res);
             dispatch(
@@ -368,7 +369,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
       });
     } else {
       selectedUsers.map((user) => {
-        inviteProjectMembers(id, user,token)
+        inviteProjectMembers(id, user, token)
           .then((res) => {
             console.log(res);
             dispatch(
@@ -431,7 +432,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
       tools: tools,
     };
     if (teamProject) {
-      addTeamProject(teamId, project,token)
+      addTeamProject(teamId, project, token)
         .then((res) => {
           // get the id from res and invite members function call
           handleInviteAll(res.data._id);
@@ -457,7 +458,7 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           );
         });
     } else {
-      createProject(project,token)
+      createProject(project, token)
         .then((res) => {
           // get the id from res and invite members function call
           handleInviteAll(res.data._id);
@@ -516,7 +517,11 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
           {showAddProject && (
             <>
               <Label>Project Details :</Label>
-              <ImageSelector inputs={inputs} setInputs={setInputs} style={{ marginTop: "12px" }}/>
+              <ImageSelector
+                inputs={inputs}
+                setInputs={setInputs}
+                style={{ marginTop: "12px" }}
+              />
               <OutlinedBox style={{ marginTop: "12px" }}>
                 <TextInput
                   placeholder="Title (Required)*"
@@ -636,8 +641,13 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                       </UserData>
                       <Flex>
                         <Access>
-                          <Select name="Role" onChange={(e) => setAccess(e.target.value)}>
-                            <option value="" selected disabled hidden>Access</option>
+                          <Select
+                            name="Role"
+                            onChange={(e) => setAccess(e.target.value)}
+                          >
+                            <option value="" selected disabled hidden>
+                              Access
+                            </option>
                             <option value="Admin">Admin</option>
                             <option value="Member">Member</option>
                             <option value="Editor">Editor</option>
@@ -645,11 +655,23 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                           </Select>
                         </Access>
                         <Role>
-                          <Input style={{ width: '70px', fontSize: '12px', padding: '8px 10px' }} type="text" placeholder="Role" onChange={(e) => setRole(e.target.value)} />
+                          <Input
+                            style={{
+                              width: "70px",
+                              fontSize: "12px",
+                              padding: "8px 10px",
+                            }}
+                            type="text"
+                            placeholder="Role"
+                            onChange={(e) => setRole(e.target.value)}
+                          />
                         </Role>
-
                       </Flex>
-                      <InviteButton onClick={() => {access!=="" && role!=="" && handleSelect(user)}}>
+                      <InviteButton
+                        onClick={() => {
+                          access !== "" && role !== "" && handleSelect(user);
+                        }}
+                      >
                         Add
                       </InviteButton>
                     </MemberCard>
@@ -675,13 +697,8 @@ const AddNewProject = ({ setNewProject, teamId, teamProject }) => {
                         </Details>
                       </UserData>
                       <Flex>
-                        <Access>
-                          {user.access}
-                        </Access>
-                        <Role style={{padding: '6px 10px'}}>
-                          {user.role}
-                        </Role>
-
+                        <Access>{user.access}</Access>
+                        <Role style={{ padding: "6px 10px" }}>{user.role}</Role>
                       </Flex>
                       <InviteButton onClick={() => handleRemove(user)}>
                         Remove

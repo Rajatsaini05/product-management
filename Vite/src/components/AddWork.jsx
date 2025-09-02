@@ -351,7 +351,7 @@ const AddWork = ({ ProjectMembers, ProjectId, setCreated }) => {
 
     console.log(newWorkCard);
     setLoading(true);
-    addWorks(ProjectId, newWorkCard,token)
+    addWorks(ProjectId, newWorkCard, token)
       .then((res) => {
         setLoading(false);
         emptyForm();

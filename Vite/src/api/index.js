@@ -42,7 +42,7 @@ export const resetPassword = async (email, password) =>
 export const getUsers = async (token) =>
   await API.get(
     "/users/find",
-    { headers: { Authorization: `Bearer ${token}` }, withCredentials: true, },
+    { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
     // {
     //   withCredentials: true,
     // }
@@ -50,7 +50,7 @@ export const getUsers = async (token) =>
 export const searchUsers = async (search, token) =>
   await API.get(
     `users/search/${search}`,
-    { headers: { Authorization: `Bearer ${token}` }, withCredentials: true, },
+    { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
     // { withCredentials: true }
   );
 export const notifications = async (token) =>

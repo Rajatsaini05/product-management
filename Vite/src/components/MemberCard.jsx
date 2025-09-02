@@ -58,7 +58,9 @@ const MemberCard = ({ member }) => {
   return (
     <Container>
       <Wrapper>
-        <Avatar sx={{width: '34px', height: '34px'}} src={member.id.img} >{member.id.name.charAt(0)}</Avatar>
+        <Avatar sx={{ width: "34px", height: "34px" }} src={member.id.img}>
+          {member.id.name.charAt(0)}
+        </Avatar>
         <Details>
           <Name>{member.id.name}</Name>
           <EmailId>{member.id.email}</EmailId>

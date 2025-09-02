@@ -24,5 +24,6 @@ const teamSlice = createSlice({
   },
 });
 
-export const { setTeams, addTeam, removeTeam, updateTeamList } = teamSlice.actions;
+export const { setTeams, addTeam, removeTeam, updateTeamList } =
+  teamSlice.actions;
 export default teamSlice.reducer;

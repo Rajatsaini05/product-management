@@ -118,19 +118,19 @@ const ProjectStatCard = () => {
         <Tag tagColor="#FFC107">React</Tag>
         <Tag tagColor="#FFC107">Tag 2</Tag>
       </Tags>
-        <Progress>
-          <Text>
-            Task Done :<Span>2/10</Span>
-          </Text>
-          <LinearProgress
-            sx={{ borderRadius: "10px", height: 3 }}
-            variant="determinate"
-            value={20}
-            color={"success"}
-          />
-        </Progress>
+      <Progress>
+        <Text>
+          Task Done :<Span>2/10</Span>
+        </Text>
+        <LinearProgress
+          sx={{ borderRadius: "10px", height: 3 }}
+          variant="determinate"
+          value={20}
+          color={"success"}
+        />
+      </Progress>
       <Hr />
-      <Flex style={{alignItems: 'center'}}>
+      <Flex style={{ alignItems: "center" }}>
         <AvatarGroup>
           <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUB8kqGZ74kvQczb_fL00a6LecB331zRp5SQ&usqp=CAU" />
           <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUB8kqGZ74kvQczb_fL00a6LecB331zRp5SQ&usqp=CAU" />

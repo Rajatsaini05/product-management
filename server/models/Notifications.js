@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
-const Notifications = new mongoose.Schema({
+const Notifications = new mongoose.Schema(
+  {
     message: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     link: {
-        type: String,
+      type: String,
     },
     type: { type: String, required: true },
-},
-    { timestamps: true }
+  },
+  { timestamps: true }
 );
 
 export default mongoose.model("Notifications", Notifications);

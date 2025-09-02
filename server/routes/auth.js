@@ -1,5 +1,15 @@
 import express from "express";
-import { signup,signin, logout, googleAuthSignIn, generateOTP, verifyOTP, createResetSession,findUserByEmail, resetPassword } from "../controllers/auth.js";
+import {
+  signup,
+  signin,
+  logout,
+  googleAuthSignIn,
+  generateOTP,
+  verifyOTP,
+  createResetSession,
+  findUserByEmail,
+  resetPassword,
+} from "../controllers/auth.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { localVariables } from "../middleware/auth.js";
 
@@ -16,15 +26,12 @@ router.post("/google", googleAuthSignIn);
 //find user by email
 router.get("/findbyemail", findUserByEmail);
 //generate opt
-router.get("/generateotp",localVariables, generateOTP);
+router.get("/generateotp", localVariables, generateOTP);
 //verify opt
 router.get("/verifyotp", verifyOTP);
 //create reset session
 router.get("/createResetSession", createResetSession);
 //forget password
 router.put("/forgetpassword", resetPassword);
-
-
-
 
 export default router;

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import styled from "styled-components";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import InstagramIcon from "@mui/icons-material/Instagram";
 
 const FooterContainer = styled.footer`
   width: 100%;
@@ -39,7 +39,7 @@ const Nav = styled.nav`
 `;
 
 const NavLink = styled.a`
-color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.text};
   text-decoration: none;
   font-size: 1.2rem;
   transition: color 0.2s ease-in-out;
@@ -82,14 +82,20 @@ function Footer() {
         <NavLink href="#team">Team</NavLink>
       </Nav>
       <SocialMediaIcons>
-        <SocialMediaIcon href="#"><FacebookIcon /></SocialMediaIcon>
-        <SocialMediaIcon href="#"><TwitterIcon /></SocialMediaIcon>
-        <SocialMediaIcon href="#"><LinkedInIcon /></SocialMediaIcon>
-        <SocialMediaIcon href="#"><InstagramIcon /></SocialMediaIcon>
+        <SocialMediaIcon href="#">
+          <FacebookIcon />
+        </SocialMediaIcon>
+        <SocialMediaIcon href="#">
+          <TwitterIcon />
+        </SocialMediaIcon>
+        <SocialMediaIcon href="#">
+          <LinkedInIcon />
+        </SocialMediaIcon>
+        <SocialMediaIcon href="#">
+          <InstagramIcon />
+        </SocialMediaIcon>
       </SocialMediaIcons>
-      <Copyright>
-        &copy; 2023 Vexa. All rights reserved.
-      </Copyright>
+      <Copyright>&copy; 2023 Vexa. All rights reserved.</Copyright>
     </FooterContainer>
   );
 }

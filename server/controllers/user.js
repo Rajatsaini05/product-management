@@ -21,7 +21,7 @@ export const update = async (req, res, next) => {
   } else {
     return next(createError(403, "You can update only your account!"));
   }
-}
+};
 
 export const deleteUser = async (req, res, next) => {
   if (req.params.id === req.user.id) {
@@ -34,7 +34,7 @@ export const deleteUser = async (req, res, next) => {
   } else {
     return next(createError(403, "You can delete only your account!"));
   }
-}
+};
 
 export const findUser = async (req, res, next) => {
   try {
@@ -43,27 +43,32 @@ export const findUser = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 
 export const getUser = async (req, res, next) => {
-  //if the req.user id is not present then it will give a message of user not authenticated 
+  //if the req.user id is not present then it will give a message of user not authenticated
 
   try {
-    const user = await User.findById(req.user.id).populate("notifications").populate({
-      path: "teams",
-      populate: {
-        path: "members.id",
-        select: "_id name email",
-      }
-    }).populate("projects").populate("works").populate("tasks");
+    const user = await User.findById(req.user.id)
+      .populate("notifications")
+      .populate({
+        path: "teams",
+        populate: {
+          path: "members.id",
+          select: "_id name email",
+        },
+      })
+      .populate("projects")
+      .populate("works")
+      .populate("tasks");
     //extract the notification from the user and send it to the client
-    console.log(user)
+    console.log(user);
     res.status(200).json(user);
   } catch (err) {
-    console.log(req.user)
+    console.log(req.user);
     next(err);
   }
-}
+};
 
 // get notifications of the user
 
@@ -81,15 +86,13 @@ export const getNotifications = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
-
-
+};
 
 //fetch all the works of the user
 export const getWorks = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).populate(
-      {
+    const user = await User.findById(req.user.id)
+      .populate({
         path: "works",
         populate: {
           path: "tasks",
@@ -97,15 +100,16 @@ export const getWorks = async (req, res, next) => {
             path: "members",
             select: "name img",
           },
-        }
-      }).populate({
+        },
+      })
+      .populate({
         path: "works",
         populate: {
           path: "creatorId",
           select: "name img",
-        }
+        },
       })
-      .sort({ updatedAt: -1 });;
+      .sort({ updatedAt: -1 });
     if (!user) return next(createError(404, "User not found!"));
     //store all the works of the user in an array and send it to the client
     const works = [];
@@ -124,13 +128,15 @@ export const getWorks = async (req, res, next) => {
 //get all the tasks of the user
 export const getTasks = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).populate({
-      path: "tasks",
-      populate: {
-        path: "members",
-        select: "name img",
-      }
-    }).sort({ end_date: 1 });
+    const user = await User.findById(req.user.id)
+      .populate({
+        path: "tasks",
+        populate: {
+          path: "members",
+          select: "name img",
+        },
+      })
+      .sort({ end_date: 1 });
     if (!user) return next(createError(404, "User not found!"));
     //store all the tasks of the user in an array and send it to the client
     const tasks = [];
@@ -146,8 +152,6 @@ export const getTasks = async (req, res, next) => {
   }
 };
 
-
-
 export const subscribe = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.user.id, {
@@ -156,11 +160,11 @@ export const subscribe = async (req, res, next) => {
     await User.findByIdAndUpdate(req.params.id, {
       $inc: { subscribers: 1 },
     });
-    res.status(200).json("Subscription successfull.")
+    res.status(200).json("Subscription successfull.");
   } catch (err) {
     next(err);
   }
-}
+};
 
 export const unsubscribe = async (req, res, next) => {
   try {
@@ -171,74 +175,88 @@ export const unsubscribe = async (req, res, next) => {
       await User.findByIdAndUpdate(req.params.id, {
         $inc: { subscribers: -1 },
       });
-      res.status(200).json("Unsubscription successfull.")
+      res.status(200).json("Unsubscription successfull.");
     } catch (err) {
       next(err);
     }
   } catch (err) {
     next(err);
   }
-}
+};
 
 //find project id from user and get it from projects collection and send it to client
 export const getUserProjects = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).populate("projects")
-    const projects = []
-    await Promise.all(user.projects.map(async (project) => {
-      await Project.findById(project).populate("members.id", "_id  name email img").then((project) => {
-        projects.push(project)
-      }).catch((err) => {
-        next(err)
+    const user = await User.findById(req.user.id).populate("projects");
+    const projects = [];
+    await Promise.all(
+      user.projects.map(async (project) => {
+        await Project.findById(project)
+          .populate("members.id", "_id  name email img")
+          .then((project) => {
+            projects.push(project);
+          })
+          .catch((err) => {
+            next(err);
+          });
       })
-    })).then(() => {
-      res.status(200).json(projects)
-    }).catch((err) => {
-      next(err)
-    })
+    )
+      .then(() => {
+        res.status(200).json(projects);
+      })
+      .catch((err) => {
+        next(err);
+      });
   } catch (err) {
     next(err);
   }
-}
+};
 
 //find team id from user and get it from teams collection and send it to client
 export const getUserTeams = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).populate("teams")
-    const teams = []
-    await Promise.all(user.teams.map(async (team) => {
-      await Teams.findById(team.id).then((team) => {
-        teams.push(team)
-      }).catch((err) => {
-        next(err)
+    const user = await User.findById(req.user.id).populate("teams");
+    const teams = [];
+    await Promise.all(
+      user.teams.map(async (team) => {
+        await Teams.findById(team.id)
+          .then((team) => {
+            teams.push(team);
+          })
+          .catch((err) => {
+            next(err);
+          });
       })
-    })).then(() => {
-      res.status(200).json(teams)
-    }).catch((err) => {
-      next(err)
-    })
+    )
+      .then(() => {
+        res.status(200).json(teams);
+      })
+      .catch((err) => {
+        next(err);
+      });
   } catch (err) {
     next(err);
   }
-}
+};
 
 //find user from email and send it to client
 export const findUserByEmail = async (req, res, next) => {
   const email = req.params.email;
   const users = [];
   try {
-    await User.findOne({ email: { $regex: email, $options: "i" } }).then((user) => {
-      if(user!=null)
-      {
-        users.push(user);
-        res.status(200).json(users);
-      }else{
-        res.status(201).json({message:"No user found"});
-      }
-    }).catch((err) => {
-      next(err)
-    })
+    await User.findOne({ email: { $regex: email, $options: "i" } })
+      .then((user) => {
+        if (user != null) {
+          users.push(user);
+          res.status(200).json(users);
+        } else {
+          res.status(201).json({ message: "No user found" });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
   } catch (err) {
     next(err);
   }
-}
+};

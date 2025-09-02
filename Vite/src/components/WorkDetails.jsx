@@ -2,9 +2,7 @@ import { IconButton, Modal, Snackbar } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import styled from "styled-components";
-import {
-  CloseRounded,
-} from "@mui/icons-material";
+import { CloseRounded } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { tagColors } from "../data/data";
@@ -133,7 +131,6 @@ const TableHeader = styled.div`
   background-color: ${({ theme }) => theme.bgDark};
 `;
 
-
 const No = styled.div`
   width: 4%;
   font-size: 12px;
@@ -194,7 +191,6 @@ const Date = styled.div`
   `}
 `;
 
-
 const WorkDetails = ({ setOpenWork, work }) => {
   const dispatch = useDispatch();
   const [task, setTask] = useState(work.tasks);
@@ -215,11 +211,9 @@ const WorkDetails = ({ setOpenWork, work }) => {
         item.members.forEach((items) => {
           //check if the same member is already present in the array
           let isPresent = Members.some((member) => member._id === items._id);
-          if (!isPresent)
-          {
+          if (!isPresent) {
             Members.push(items);
           }
-
         });
       }
     });
@@ -245,9 +239,7 @@ const WorkDetails = ({ setOpenWork, work }) => {
                 <CloseRounded style={{ color: "inherit" }} />
               </IconButton>
             </FlexDisplay>
-            <Desc>
-              {work.desc}
-            </Desc>
+            <Desc>{work.desc}</Desc>
             <Tags>
               {work.tags.map((tag) => (
                 <Tag
@@ -322,7 +314,7 @@ const WorkDetails = ({ setOpenWork, work }) => {
                 </Date>
               </TableHeader>
               {task.map((item, index) => (
-                <TaskCard item={item} index={index} members={members}/>
+                <TaskCard item={item} index={index} members={members} />
               ))}
             </Table>
           </Bottom>
