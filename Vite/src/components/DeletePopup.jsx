@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { deleteProject, deleteTeam } from '../api';
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from '../redux/snackbarSlice';
+import { removeTeam } from "../redux/teamSlice";
 
 
 const Container = styled.div`
@@ -139,6 +140,7 @@ const DeletePopup = ({ openDelete, setOpenDelete }) => {
     await deleteTeam(openDelete.id, openDelete.token)
     .then((res) => {
       console.log(res);
+      dispatch(removeTeam(openDelete.id));
       dispatch(openSnackbar
         ({
           message: "Team deleted successfully",

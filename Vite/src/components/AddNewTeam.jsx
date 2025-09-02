@@ -25,6 +25,8 @@ import {
 import { openSnackbar } from "../redux/snackbarSlice";
 import { useDispatch } from "react-redux";
 import ImageSelector from "./ImageSelector";
+import { addTeam } from "../redux/teamSlice";
+
 
 const Container = styled.div`
   width: 100%;
@@ -266,7 +268,7 @@ const InviteButton = styled.button`
   }
 `;
 
-const AddNewTeam = ({ setNewTeam }) => {
+const AddNewTeam = ({ setNewTeam, onTeamCreated }) => {
   const [Loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [backDisabled, setBackDisabled] = useState(false);
@@ -431,6 +433,7 @@ const AddNewTeam = ({ setNewTeam }) => {
         handleInviteAll(res.data._id);
         setLoading(false);
         setNewTeam(false);
+        dispatch(addTeam(res.data));
         dispatch(
           openSnackbar({
             message: "Team created successfully",

@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import { Link } from "react-router-dom";
+import { setTeams } from "../redux/teamSlice";
 import {
   Add,
   Dashboard,
@@ -119,9 +120,12 @@ const TeamIcon = styled(WorkspacesRounded)`
   margin-left: 2px;
 `;
 
-const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
+const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam, setHandleTeamAdded }) => {
   const [teamsLoading, setTeamsLoading] = useState(true);
+  // const [team, setTeams] = useState([]);
   const token = localStorage.getItem("token");
+  const { currentUser } = useSelector(state => state.user);
+  const teams = useSelector((state) => state.teams.list); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutUser = () => {
@@ -129,19 +133,18 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
     navigate(`/`);
   };
 
-  const [team, setTeams] = useState([]);
-  const { currentUser } = useSelector(state => state.user);
 
   const getteams = async () => {
     setTeamsLoading(true);
    await getUsers(token)
       .then((res) => {
-        setTeams(res.data.teams);
+        // setTeams(res.data.teams);
+        dispatch(setTeams(res.data.teams));
         setTeamsLoading(false);
       })
       .catch((err) => {
-        dispatch(openSnackbar({ message: err.message, type: "error" }));
-        if (err.response.status === 401 || err.response.status === 402) logoutUser();
+        setTeamsLoading(false);               // ✅ prevent infinite spinner
+    dispatch(openSnackbar({ message: err.message, type: "error" }));
       });
   };
 
@@ -149,6 +152,14 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
   useEffect(() => {
     getteams();
   }, [currentUser]);
+
+  useEffect(() => {
+    if (setHandleTeamAdded) {
+      setHandleTeamAdded((newTeamObj) => {
+        setTeams((prev) => [...prev, newTeamObj]); // ⬅️ append instantly
+      });
+    }
+  }, [setHandleTeamAdded]);
 
   return (
     <Container setMenuOpen={setMenuOpen}>
@@ -206,7 +217,7 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
             <CircularProgress size='24px' />
           </div>
         ) : (<>
-          {team.map((team, i) => (
+          {teams.map((team, i) => (
             <Link
               to={`/teams/${team._id}`}
               style={{ textDecoration: "none", color: "inherit" }}

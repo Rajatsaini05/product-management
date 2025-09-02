@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import teamReducer from "./teamSlice";
 import { PersistGate } from "redux-persist/integration/react";
 
 const persistConfig = {
@@ -20,7 +21,11 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer, snackbar: snackbarReducer });
+const rootReducer = combineReducers({
+  user: userReducer,
+  snackbar: snackbarReducer,
+  teams: teamReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -34,4 +39,4 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);

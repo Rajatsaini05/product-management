@@ -28,6 +28,7 @@ import {
 import { openSnackbar } from "../redux/snackbarSlice";
 import { useDispatch } from "react-redux";
 import ImageSelector from "./ImageSelector";
+import { updateTeamList } from "../redux/teamSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -469,6 +470,7 @@ const UpdateTeam = ({ openUpdate, setOpenUpdate }) => {
                 //handleInviteAll(res.data._id);
                 setLoading(false);
                 setOpenUpdate({ ...openUpdate, state: false });
+                dispatch(updateTeamList(res.data));
                 dispatch(
                     openSnackbar({
                         message: "Team updated successfully",
