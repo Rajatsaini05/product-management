@@ -303,7 +303,7 @@ export const inviteTeamMember = async (req, res, next) => {
     digits: true,
   });
 
-  const link = `${process.env.URL}/api/team/invite/${req.app.locals.CODE}?teamid=${req.params.id}&userid=${req.body.id}&access=${req.body.access}&role=${req.body.role}`;
+  const link = `http://localhost:5173/teams/${req.params.id}`; //`${process.env.URL}/api/team/invite/${req.app.locals.CODE}?teamid=${req.params.id}&userid=${req.body.id}&access=${req.body.access}&role=${req.body.role}`;
 
   const mailBody = `
     <div style="font-family: Poppins, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
