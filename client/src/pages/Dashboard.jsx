@@ -1,20 +1,19 @@
-
 import React from "react";
 import { useState, useEffect } from "react";
 import ProjectCard from "../components/Card";
 import Styled, { useTheme } from "styled-components";
 import ProjectStatCard from "../components/ProjectStatCard";
 import { Add } from "@mui/icons-material";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { LinearProgress } from "@mui/material";
 import { statuses, data, tagColors } from "../data/data";
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../redux/snackbarSlice";
 import { getProjects, userTasks } from "../api";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 const Container = Styled.div`
 @media screen and (max-width: 480px) {
@@ -148,7 +147,6 @@ const RecentProjectsWrapper = Styled.div`
   gap: 20px;
 `;
 
-
 const Teams = Styled.div`
   width: 100%;
 `;
@@ -235,22 +233,27 @@ const TaskCardWrapper = Styled.div`
   grid-gap: 8px;
 `;
 
-function CircularProgressWithLabel(props
-) {
+function CircularProgressWithLabel(props) {
   const theme = useTheme();
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress variant="determinate" {...props} thickness={6} size="60px" style={{ color: theme.primary }} />
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress
+        variant="determinate"
+        {...props}
+        thickness={6}
+        size="60px"
+        style={{ color: theme.primary }}
+      />
       <Box
         sx={{
           top: 0,
           left: 0,
           bottom: 0,
           right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography
@@ -269,7 +272,6 @@ function CircularProgressWithLabel(props
 // }
 
 const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
-
   const dispatch = useDispatch();
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -279,7 +281,6 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
   const [totalTasksDone, setTotalTasksDone] = useState(0);
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
-
 
   const token = localStorage.getItem("token");
   const getprojects = async () => {
@@ -301,7 +302,11 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
   };
 
   const getTotalProjectsDone = () => {
-    setTotalProjectsDone(projects.filter((project) => project.status.toString().toLowerCase() === "completed").length);
+    setTotalProjectsDone(
+      projects.filter(
+        (project) => project.status.toString().toLowerCase() === "completed"
+      ).length
+    );
     setTotalProjects(projects.length);
   };
 
@@ -326,8 +331,12 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
 
   const getTotalTasks = async () => {
     setTotalTasks(tasks.length);
-    setTotalTasksDone(tasks.filter((task) => task.status.toString().toLowerCase() === "completed").length);
-  }
+    setTotalTasksDone(
+      tasks.filter(
+        (task) => task.status.toString().toLowerCase() === "completed"
+      ).length
+    );
+  };
 
   useEffect(() => {
     getprojects();
@@ -335,11 +344,19 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
     window.scrollTo(0, 0);
   }, [newProject]);
 
-
   return (
     <Container>
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px', height: '300px' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "12px 0px",
+            height: "300px",
+          }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -352,7 +369,9 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
                   <Progress>
                     <LinearProgress
                       sx={{
-                        borderRadius: "10px", height: 7, width: "80%"
+                        borderRadius: "10px",
+                        height: 7,
+                        width: "80%",
                       }}
                       variant="determinate"
                       value={
@@ -363,9 +382,14 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
                     />
                     <ProgressText>{totalProjectsDone.toString()}</ProgressText>
                   </Progress>
-                  <Desc>Working on&nbsp;
-                    <Span> {(totalProjects - totalProjectsDone).toString()} </Span>
-                    &nbsp;projects</Desc>
+                  <Desc>
+                    Working on&nbsp;
+                    <Span>
+                      {" "}
+                      {(totalProjects - totalProjectsDone).toString()}{" "}
+                    </Span>
+                    &nbsp;projects
+                  </Desc>
                 </TotalProjects>
               </StatCard>
 
@@ -385,7 +409,10 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
                     />
                     <ProgressText>{totalTasksDone}</ProgressText>
                   </Progress>
-                  <Desc><Span>{totalTasks - totalTasksDone}</Span> &nbsp;Tasks are left</Desc>
+                  <Desc>
+                    <Span>{totalTasks - totalTasksDone}</Span> &nbsp;Tasks are
+                    left
+                  </Desc>
                 </TaskCompleted>
               </StatCard>
 
@@ -398,39 +425,37 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
 
             <RecentProjects>
               <SectionTitle>Recent Projects</SectionTitle>
-              <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
+              <ResponsiveMasonry
+                columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}
+              >
                 <Masonry gutter="0px 16px">
-                  {
-                    projects
-                      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-                      .filter((item, index) => index < 6)
-                      .map((project, id) => (
-                        <ProjectCard
-                          key={project._id}
-                          item={project}
-                          index={id}
-                          status={project.status}
-                          tagColor={tagColors[3]}
-                        />
-                      ))
-                  }
+                  {projects
+                    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                    .filter((item, index) => index < 6)
+                    .map((project, id) => (
+                      <ProjectCard
+                        key={project._id}
+                        item={project}
+                        index={id}
+                        status={project.status}
+                        tagColor={tagColors[3]}
+                      />
+                    ))}
                 </Masonry>
               </ResponsiveMasonry>
             </RecentProjects>
-
           </Left>
           <Right>
-
             <TopBar>
               <CreateButton onClick={() => setNewProject(true)}>
                 <Icon>
-                  <Add style={{ color: 'inherit' }} />
+                  <Add style={{ color: "inherit" }} />
                 </Icon>
                 Create New Project
               </CreateButton>
               <CreateButton btn="team" onClick={() => setNewTeam(true)}>
                 <Icon>
-                  <Add style={{ color: '#FFC107' }} />
+                  <Add style={{ color: "#FFC107" }} />
                 </Icon>
                 Create New Team
               </CreateButton>
@@ -438,7 +463,7 @@ const Dashboard = ({ setNewProject, setNewTeam, newProject }) => {
           </Right>
         </Section>
       )}
-    </Container >
+    </Container>
   );
 };
 

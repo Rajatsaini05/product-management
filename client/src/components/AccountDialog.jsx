@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   min-width: 200px;
@@ -53,7 +53,7 @@ const Logout = styled.div`
   padding: 0px 0px 12px 0px;
   display: flex;
   align-items: center;
-  justify-content: center;;
+  justify-content: center;
   font-size: 16px;
   font-weight: 500;
   color: ${({ theme }) => theme.textSoft};
@@ -63,21 +63,21 @@ const Logout = styled.div`
 const OutlinedBox = styled.div`
   border-radius: 6px;
   padding: 4px 16px;
-  border: 1px solid ${({ theme }) => theme.soft2+"99"};
-  color: ${({ theme }) => theme.soft2+"99"};
+  border: 1px solid ${({ theme }) => theme.soft2 + "99"};
+  color: ${({ theme }) => theme.soft2 + "99"};
   font-size: 12px;
   &:hover {
     background-color: ${({ theme }) => theme.soft2 + "33"};
-    }
+  }
 `;
 
 const AccountDialog = ({ open, id, anchorEl, handleClose, currentUser }) => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const logoutUser = () => {
-      dispatch(logout())
-      navigate('/');
-    }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutUser = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <Popover
       anchorReference="anchorPosition"
@@ -92,10 +92,9 @@ const AccountDialog = ({ open, id, anchorEl, handleClose, currentUser }) => {
     >
       <Wrapper>
         <Account>
-          <Avatar
-            sx={{ width: "50px", height: "50px" }}
-            src={currentUser.img}
-          >{currentUser.name.charAt(0)}</Avatar>
+          <Avatar sx={{ width: "50px", height: "50px" }} src={currentUser.img}>
+            {currentUser.name.charAt(0)}
+          </Avatar>
           <Details>
             <Name>{currentUser.name}</Name>
             <Email>{currentUser.email}</Email>

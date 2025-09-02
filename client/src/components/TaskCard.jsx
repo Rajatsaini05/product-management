@@ -110,7 +110,7 @@ const Members = styled.div`
   align-items: center;
 `;
 
-const TaskCard = ({item,index,members}) => {
+const TaskCard = ({ item, index, members }) => {
   return (
     <Card completed={item.status}>
       <No completed={item.status}>{index + 1}.</No>

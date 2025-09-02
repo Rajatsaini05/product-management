@@ -29,7 +29,7 @@ import AddWork from "../components/AddWork";
 import WorkDetails from "../components/WorkDetails";
 import UpdateProject from "../components/UpdateProject";
 import DeletePopup from "../components/DeletePopup";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 const Container = styled.div`
   padding: 14px 14px;
@@ -179,14 +179,18 @@ const ToggleButton = styled.div`
   }}
   ${(props) => {
     if (props.alignment && props.button == "row") {
-      return `border-radius: 5px 0px 0px 5px; border: 2px solid ${props.theme.primary
-        }; color: ${props.theme.primary}; background-color: ${props.theme.primary + "11"
-        };`;
+      return `border-radius: 5px 0px 0px 5px; border: 2px solid ${
+        props.theme.primary
+      }; color: ${props.theme.primary}; background-color: ${
+        props.theme.primary + "11"
+      };`;
     }
     if (!props.alignment && props.button == "col") {
-      return `border-radius: 0px 5px 5px 0px; border: 2px solid ${props.theme.primary
-        }; color: ${props.theme.primary}; background-color: ${props.theme.primary + "11"
-        };`;
+      return `border-radius: 0px 5px 5px 0px; border: 2px solid ${
+        props.theme.primary
+      }; color: ${props.theme.primary}; background-color: ${
+        props.theme.primary + "11"
+      };`;
     }
   }}
 `;
@@ -328,10 +332,19 @@ const ProjectDetails = () => {
 
   //hooks for updates
   //use state enum to check for which updation
-  const [openUpdate, setOpenUpdate] = useState({ state: false, type: "all", data: item });
+  const [openUpdate, setOpenUpdate] = useState({
+    state: false,
+    type: "all",
+    data: item,
+  });
 
   //use state for delete popup
-  const [openDelete, setOpenDelete] = useState({ state: false, type: "Project", data: item, token: token });
+  const [openDelete, setOpenDelete] = useState({
+    state: false,
+    type: "Project",
+    data: item,
+    token: token,
+  });
 
   const dispatch = useDispatch();
   const getproject = async () => {
@@ -354,7 +367,7 @@ const ProjectDetails = () => {
   };
 
   const getProjectWorks = async (id) => {
-   await  getWorks(id, token)
+    await getWorks(id, token)
       .then((res) => {
         setWorks(res.data);
         console.log(res.data);
@@ -385,15 +398,30 @@ const ProjectDetails = () => {
 
   const [alignment, setAlignment] = React.useState(true);
 
-
-
   return (
     <Container>
       {openWork && <WorkDetails setOpenWork={setOpenWork} work={currentWork} />}
-      {openUpdate.state && <UpdateProject openUpdate={openUpdate} setOpenUpdate={setOpenUpdate} type={openUpdate.type} />}
-      {openDelete.state && <DeletePopup openDelete={openDelete} setOpenDelete={setOpenDelete} />}
+      {openUpdate.state && (
+        <UpdateProject
+          openUpdate={openUpdate}
+          setOpenUpdate={setOpenUpdate}
+          type={openUpdate.type}
+        />
+      )}
+      {openDelete.state && (
+        <DeletePopup openDelete={openDelete} setOpenDelete={setOpenDelete} />
+      )}
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px',height: '300px' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "12px 0px",
+            height: "300px",
+          }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -428,11 +456,31 @@ const ProjectDetails = () => {
                 Invite
               </InviteButton>
             </Members>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <IcoBtn onClick={() => setOpenUpdate({ state: true, type: 'all', data: item })}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <IcoBtn
+                onClick={() =>
+                  setOpenUpdate({ state: true, type: "all", data: item })
+                }
+              >
                 <Edit sx={{ fontSize: "20px" }} />
               </IcoBtn>
-              <IcoBtn onClick={() => setOpenDelete({ state: true, type: 'Project', name: item.title, id: item._id, token: token })}>
+              <IcoBtn
+                onClick={() =>
+                  setOpenDelete({
+                    state: true,
+                    type: "Project",
+                    name: item.title,
+                    id: item._id,
+                    token: token,
+                  })
+                }
+              >
                 <Delete sx={{ fontSize: "20px" }} />
               </IcoBtn>
             </div>
@@ -470,33 +518,34 @@ const ProjectDetails = () => {
                     <Text>
                       <DonutLarge sx={{ color: "#1976D2", fontSize: "20px" }} />
                       In Progress
-                      <Span>(
+                      <Span>
+                        (
                         {
-                          works.filter(
-                            (item) => item.status === "Working"
-                          ).length
+                          works.filter((item) => item.status === "Working")
+                            .length
                         }
-                        )</Span>
+                        )
+                      </Span>
                     </Text>
                   </Top>
-                  <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
+                  <ResponsiveMasonry
+                    columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}
+                  >
                     <Masonry gutter="14px">
-                    <AddWork
-                      ProjectMembers={members}
-                      ProjectId={id}
-                      setCreated={setCreated}
-                    />
+                      <AddWork
+                        ProjectMembers={members}
+                        ProjectId={id}
+                        setCreated={setCreated}
+                      />
 
-                    {works.filter((item) => item.status === "Working")
-                      .map((item) => (
-                        <div onClick={() => openWorkDetails(item)}>
-                          <WorkCards
-                            status="In Progress"
-                            work={item}
-                          />
-                        </div>
-                      ))}
-                  </Masonry>
+                      {works
+                        .filter((item) => item.status === "Working")
+                        .map((item) => (
+                          <div onClick={() => openWorkDetails(item)}>
+                            <WorkCards status="In Progress" work={item} />
+                          </div>
+                        ))}
+                    </Masonry>
                   </ResponsiveMasonry>
                 </ItemWrapper>
                 <ItemWrapper>
@@ -506,30 +555,29 @@ const ProjectDetails = () => {
                         sx={{ color: "#67BC6D", fontSize: "20px" }}
                       />
                       Completed
-
-                      <Span>(
+                      <Span>
+                        (
                         {
-                          works
-                            .filter(
-                              (item) => item.status === "Completed"
-                            ).length
+                          works.filter((item) => item.status === "Completed")
+                            .length
                         }
-                        )</Span>
+                        )
+                      </Span>
                     </Text>
                   </Top>
-                  <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}>
+                  <ResponsiveMasonry
+                    columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 2 }}
+                  >
                     <Masonry gutter="14px">
-                    {works.filter((item) => item.status === "Completed")
-                      .map((item) => (
-                        <div onClick={() => openWorkDetails(item)}>
-                          <WorkCards
-                            status="Completed"
-                            work={item}
-                          />
-                        </div>
-                      ))}
-                 </Masonry>
-                 </ResponsiveMasonry>
+                      {works
+                        .filter((item) => item.status === "Completed")
+                        .map((item) => (
+                          <div onClick={() => openWorkDetails(item)}>
+                            <WorkCards status="Completed" work={item} />
+                          </div>
+                        ))}
+                    </Masonry>
+                  </ResponsiveMasonry>
                 </ItemWrapper>
               </Column>
             </Work>
@@ -538,7 +586,11 @@ const ProjectDetails = () => {
               <SubCards>
                 <SubCardTop>
                   <SubCardsTitle>Members</SubCardsTitle>
-                  <IcoBtn onClick={() => setOpenUpdate({ state: true, type: 'member', data: item })} >
+                  <IcoBtn
+                    onClick={() =>
+                      setOpenUpdate({ state: true, type: "member", data: item })
+                    }
+                  >
                     <Edit sx={{ fontSize: "16px" }} />
                   </IcoBtn>
                 </SubCardTop>
@@ -549,7 +601,11 @@ const ProjectDetails = () => {
               <SubCards>
                 <SubCardTop>
                   <SubCardsTitle>Tools</SubCardsTitle>
-                  <IcoBtn onClick={() => setOpenUpdate({ state: true, type: 'tool', data: item })}>
+                  <IcoBtn
+                    onClick={() =>
+                      setOpenUpdate({ state: true, type: "tool", data: item })
+                    }
+                  >
                     <Edit sx={{ fontSize: "16px" }} />
                   </IcoBtn>
                 </SubCardTop>

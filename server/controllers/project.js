@@ -350,8 +350,10 @@ export const verifyInvitation = async (req, res, next) => {
       if (!user) return next(createError(404, "User not found"));
 
       // check if already a member
-      if (project.members.some(member => member.id === user.id)) {
-        return next(createError(403, "You are already a member of this project!"));
+      if (project.members.some((member) => member.id === user.id)) {
+        return next(
+          createError(403, "You are already a member of this project!")
+        );
       }
 
       // add member
@@ -368,7 +370,9 @@ export const verifyInvitation = async (req, res, next) => {
         { new: true }
       );
 
-      return res.status(200).json({ Message: "You have successfully joined the PROJECT!" });
+      return res
+        .status(200)
+        .json({ Message: "You have successfully joined the PROJECT!" });
     } else {
       return res.status(410).json({ Message: "Invalid Link - Link Expired!" });
     }
@@ -376,7 +380,6 @@ export const verifyInvitation = async (req, res, next) => {
     next(err);
   }
 };
-
 
 //verify invitation and add to project member
 // export const verifyInvitation = async (req, res, next) => {

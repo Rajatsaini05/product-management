@@ -1,7 +1,6 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const Div = styled.div`
-    width: 500px;
-    height: 500px;
-`
+  width: 500px;
+  height: 500px;
+`;

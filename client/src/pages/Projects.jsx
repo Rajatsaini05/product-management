@@ -89,15 +89,14 @@ const OutlinedBox = styled.div`
   }
 `;
 
-const Projects = ({newProject,setNewProject}) => {
+const Projects = ({ newProject, setNewProject }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
 
-
   const token = localStorage.getItem("token");
-  console.log(token)
+  console.log(token);
   const getprojects = async () => {
     await getProjects(token)
       .then((res) => {
@@ -120,11 +119,19 @@ const Projects = ({newProject,setNewProject}) => {
     window.scrollTo(0, 0);
   }, [newProject, currentUser]);
 
-
   return (
     <Container>
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px', height: '300px' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "12px 0px",
+            height: "300px",
+          }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -138,7 +145,11 @@ const Projects = ({newProject,setNewProject}) => {
                 </Span>
                 <Wrapper key={index}>
                   {s.status === "Working" && (
-                    <OutlinedBox button={true} activeButton={false} onClick={() => setNewProject(true)}>
+                    <OutlinedBox
+                      button={true}
+                      activeButton={false}
+                      onClick={() => setNewProject(true)}
+                    >
                       New Project
                     </OutlinedBox>
                   )}

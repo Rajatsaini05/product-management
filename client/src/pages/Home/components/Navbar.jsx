@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const Container = styled.div`
-width: 90%;
-max-width: 1320px;
+  width: 90%;
+  max-width: 1320px;
   height: 60px;
   margin: 12px 14px;
   display: flex;
@@ -42,8 +42,6 @@ const MenuItem = styled.a`
   }
 `;
 
-
-
 const Button = styled.button`
   padding: 5px 18px;
   background-color: transparent;
@@ -64,7 +62,6 @@ const Button = styled.button`
   }
 `;
 const Navbar = ({ setSignInOpen }) => {
-
   return (
     <Container>
       <Logo>VEXA</Logo>
@@ -77,9 +74,8 @@ const Navbar = ({ setSignInOpen }) => {
       <Button onClick={() => setSignInOpen(true)}>
         <AccountCircleOutlinedIcon /> Sign In
       </Button>
-
     </Container>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

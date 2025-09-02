@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
-import { inviteTeamMembers, inviteProjectMembers, searchUsers } from "../api/index";
+import {
+  inviteTeamMembers,
+  inviteProjectMembers,
+  searchUsers,
+} from "../api/index";
 import { openSnackbar } from "../redux/snackbarSlice";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -110,23 +114,23 @@ const EmailId = styled.div`
 `;
 
 const Flex = styled.div`
-display: flex;
-flex-direction: row;
-gap: 2px;
-@media (max-width: 768px) {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  flex-direction: row;
+  gap: 2px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Access = styled.div`
-padding: 6px 10px;
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: ${({ theme }) => theme.bgDark};
+  padding: 6px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.bgDark};
 `;
 
 const Select = styled.select`
@@ -181,8 +185,7 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
         if (res.status === 200) {
           setUsers(res.data);
           setMessage("");
-        }
-        else {
+        } else {
           setUsers([]);
           setMessage(res.status);
         }
@@ -208,7 +211,12 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
         .then((res) => {
           console.log(res);
           if (res.status === 200)
-            dispatch(openSnackbar({ message: `Invitation sent to ${user.name}`, type: "success" }));
+            dispatch(
+              openSnackbar({
+                message: `Invitation sent to ${user.name}`,
+                type: "success",
+              })
+            );
           setLoading(false);
         })
         .catch((err) => {
@@ -221,7 +229,12 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
       inviteProjectMembers(id, User, token)
         .then((res) => {
           if (res.status === 200)
-            dispatch(openSnackbar({ message: `Invitation sent to ${user.name}`, type: "success" }));
+            dispatch(
+              openSnackbar({
+                message: `Invitation sent to ${user.name}`,
+                type: "success",
+              })
+            );
           setLoading(false);
         })
         .catch((err) => {
@@ -274,8 +287,13 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
                 </UserData>
                 <Flex>
                   <Access>
-                    <Select name="Role" onChange={(e) => setAccess(e.target.value)}>
-                      <option value="" selected disabled hidden>Access</option>
+                    <Select
+                      name="Role"
+                      onChange={(e) => setAccess(e.target.value)}
+                    >
+                      <option value="" selected disabled hidden>
+                        Access
+                      </option>
                       <option value="Admin">Admin</option>
                       <option value="Member">Member</option>
                       <option value="Editor">Editor</option>
@@ -283,22 +301,31 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
                     </Select>
                   </Access>
                   <Role>
-                    <Input style={{ width: '70px', fontSize: '12px', padding: '8px 10px' }} type="text" placeholder="Role" onChange={(e) => setRole(e.target.value)} />
+                    <Input
+                      style={{
+                        width: "70px",
+                        fontSize: "12px",
+                        padding: "8px 10px",
+                      }}
+                      type="text"
+                      placeholder="Role"
+                      onChange={(e) => setRole(e.target.value)}
+                    />
                   </Role>
-
                 </Flex>
                 <InviteButton onClick={() => handleInvite(user)}>
                   {Loading ? (
                     <CircularProgress color="inherit" size={20} />
-                  ) : (<>
-                    <SendRounded sx={{ fontSize: "13px" }} />
-                    Invite</>
+                  ) : (
+                    <>
+                      <SendRounded sx={{ fontSize: "13px" }} />
+                      Invite
+                    </>
                   )}
                 </InviteButton>
               </MemberCard>
             ))}
           </UsersList>
-
         </Wrapper>
       </Container>
     </Modal>

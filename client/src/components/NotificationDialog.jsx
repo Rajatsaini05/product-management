@@ -95,7 +95,6 @@ const NotificationDialog = ({
             </Details>
           </Item>
         ))}
-
       </Wrapper>
     </Popover>
   );

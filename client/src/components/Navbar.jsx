@@ -104,10 +104,8 @@ const User = styled.div`
   color: ${({ theme }) => theme.text};
   @media (max-width: 800px) {
     gap: 2px;
-}
+  }
 `;
-
-
 
 const Navbar = ({ menuOpen, setMenuOpen }) => {
   const [SignUpOpen, setSignUpOpen] = useState(false);
@@ -121,15 +119,16 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
 
   const [notification, setNotification] = useState([]);
   useEffect(() => {
-    getUsers(token).then((res) => {
-      setUsers(res.data);
-    }).catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(logout())
-      }
-    });
+    getUsers(token)
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          dispatch(logout());
+        }
+      });
   }, [dispatch]);
-
 
   const getNotifications = async () => {
     try {
@@ -200,7 +199,10 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
           <User>
             {currentUser ? (
               <>
-                <IcoButton aria-describedby={id} onClick={() => navigate('/chats')}>
+                <IcoButton
+                  aria-describedby={id}
+                  onClick={() => navigate("/chats")}
+                >
                   <Badge color="primary">
                     <Forum />
                   </Badge>

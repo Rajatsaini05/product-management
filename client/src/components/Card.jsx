@@ -9,7 +9,7 @@ import { tagColors } from "../data/data";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
-import {format} from 'timeago.js';
+import { format } from "timeago.js";
 
 const Container = styled.div`
   padding: 14px 14px;
@@ -72,7 +72,6 @@ const Desc = styled.div`
   -webkit-box-orient: vertical;
 `;
 
-
 const Tags = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -84,7 +83,7 @@ const Tags = styled.div`
 const Tag = styled.div`
   padding: 4px 10px;
   border-radius: 8px;
-  color: ${({ tagColor,theme }) => tagColor + theme.lightAdd};
+  color: ${({ tagColor, theme }) => tagColor + theme.lightAdd};
   background-color: ${({ tagColor, theme }) => tagColor + "10"};
   font-size: 10px;
   font-weight: 500;
@@ -111,7 +110,6 @@ const AvatarGroup = styled.div`
   align-items: center;
   margin-right: 12px;
 `;
-
 
 const Card = ({ tagColor, item, index, status }) => {
   const ref = useRef(null);
@@ -177,11 +175,17 @@ const Card = ({ tagColor, item, index, status }) => {
           </Tags>
           <Bottom>
             <Time>
-              <TimelapseRounded sx={{fontSize: '18px'}}/> Updated {format(item.updatedAt)}
+              <TimelapseRounded sx={{ fontSize: "18px" }} /> Updated{" "}
+              {format(item.updatedAt)}
             </Time>
             <AvatarGroup>
               {item.members.map((member) => (
-                <Avatar sx={{marginRight: '-12px', width: '34px', height: '34px'}}  src={member.id.img} >{member.id.name.charAt(0)}</Avatar>
+                <Avatar
+                  sx={{ marginRight: "-12px", width: "34px", height: "34px" }}
+                  src={member.id.img}
+                >
+                  {member.id.name.charAt(0)}
+                </Avatar>
               ))}
             </AvatarGroup>
           </Bottom>

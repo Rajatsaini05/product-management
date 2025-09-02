@@ -5,7 +5,7 @@ import {
   ImportantDevices,
   MoreVert,
   TimelapseRounded,
-  StarsRounded
+  StarsRounded,
 } from "@mui/icons-material";
 import LinearProgress, {
   linearProgressClasses,
@@ -180,10 +180,14 @@ const Card = ({ status, work }) => {
     <Container className={"item"}>
       <Top>
         <Title>{work.title}</Title>
-        {work.priority === "Low" &&
-          <StarsRounded sx={{ 'font-size': '18px' }} style={{ 'color': '#E67E22' }} />}
+        {work.priority === "Low" && (
+          <StarsRounded
+            sx={{ "font-size": "18px" }}
+            style={{ color: "#E67E22" }}
+          />
+        )}
         <IcoBtn>
-          <MoreVert style={{ flex: "1", fontSize: '20px' }} />
+          <MoreVert style={{ flex: "1", fontSize: "20px" }} />
         </IcoBtn>
       </Top>
       <Desc>{work.desc}</Desc>

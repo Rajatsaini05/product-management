@@ -1,12 +1,11 @@
-import { CloseRounded } from '@mui/icons-material';
-import { CircularProgress, Modal } from '@mui/material';
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components'
-import { deleteProject, deleteTeam } from '../api';
-import { useDispatch } from 'react-redux';
-import { openSnackbar } from '../redux/snackbarSlice';
-
+import { CloseRounded } from "@mui/icons-material";
+import { CircularProgress, Modal } from "@mui/material";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { deleteProject, deleteTeam } from "../api";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../redux/snackbarSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -46,7 +45,7 @@ const Text = styled.div`
   font-size: 14px;
   font-weight: 400;
   color: ${({ theme }) => theme.soft2};
-  margin: 12px ;
+  margin: 12px;
   line-height: 1.5;
 `;
 
@@ -80,14 +79,11 @@ const Button = styled.button`
     background: ${theme.soft};
     color: ${theme.soft2};
     cursor: not-allowed;
-  `
-  }
+  `}
 `;
 
-
 const DeletePopup = ({ openDelete, setOpenDelete }) => {
-
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
@@ -111,66 +107,67 @@ const DeletePopup = ({ openDelete, setOpenDelete }) => {
     } else if (openDelete.type === "Work") {
       deleteWork();
     }
-
-  }
+  };
 
   const DeleteProject = async () => {
     await deleteProject(openDelete.id, openDelete.token)
       .then((res) => {
         console.log(res);
-        dispatch(openSnackbar
-          ({
+        dispatch(
+          openSnackbar({
             message: "Project deleted successfully",
             type: "success",
-          }));
+          })
+        );
 
         handleDeleteSuccess("/projects");
       })
       .catch((err) => {
-        dispatch(openSnackbar
-          ({
+        dispatch(
+          openSnackbar({
             message: err.message,
             type: "error",
-          }));
-      })
-  }
+          })
+        );
+      });
+  };
 
   const DeleteTeam = async () => {
     await deleteTeam(openDelete.id, openDelete.token)
-    .then((res) => {
-      console.log(res);
-      dispatch(openSnackbar
-        ({
-          message: "Team deleted successfully",
-          type: "success",
-        }));
+      .then((res) => {
+        console.log(res);
+        dispatch(
+          openSnackbar({
+            message: "Team deleted successfully",
+            type: "success",
+          })
+        );
 
-      handleDeleteSuccess("/");
-    }
-    ).catch((err) => {
-      dispatch(openSnackbar
-        ({
-          message: err.message,
-          type: "error",
-        }));
-    }
-    )
-  }
+        handleDeleteSuccess("/");
+      })
+      .catch((err) => {
+        dispatch(
+          openSnackbar({
+            message: err.message,
+            type: "error",
+          })
+        );
+      });
+  };
 
-  const deleteWork = () => {
-  }
-
+  const deleteWork = () => {};
 
   const handleDeleteSuccess = (link) => {
     setLoading(false);
     setOpenDelete({ ...openDelete, state: false });
     navigate(`${link}`);
-  }
-
-
+  };
 
   return (
-    <Modal open={true} onClose={() => setOpenDelete({ ...openDelete, state: false })}>
+    <Modal
+      open={true}
+      onClose={() => setOpenDelete({ ...openDelete, state: false })}
+    >
       <Container>
         <Wrapper>
           <CloseRounded
@@ -184,16 +181,29 @@ const DeletePopup = ({ openDelete, setOpenDelete }) => {
             onClick={() => setOpenDelete({ ...openDelete, state: false })}
           />
           <Heading>Delete {openDelete.type}</Heading>
-          <Text>Are you sure you want to delete this {openDelete.type} <b>{openDelete.name}</b>.<br /> This will permanently delete <b>{openDelete.name}</b> {openDelete.type}'s comments, tools, tasks, workflow runs, and remove all collaborator associations.</Text>
-          <Input type="text" placeholder={`Enter the name of the ${openDelete.type} to confirm`} value={name} onChange={(e) => setName(e.target.value)} />
+          <Text>
+            Are you sure you want to delete this {openDelete.type}{" "}
+            <b>{openDelete.name}</b>.<br /> This will permanently delete{" "}
+            <b>{openDelete.name}</b> {openDelete.type}'s comments, tools, tasks,
+            workflow runs, and remove all collaborator associations.
+          </Text>
+          <Input
+            type="text"
+            placeholder={`Enter the name of the ${openDelete.type} to confirm`}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <Button disabled={disabled} onClick={() => handleDelete()}>
-            {loading ? <CircularProgress size="14px" color="inherit" />
-              : "Confirm"}
+            {loading ? (
+              <CircularProgress size="14px" color="inherit" />
+            ) : (
+              "Confirm"
+            )}
           </Button>
         </Wrapper>
       </Container>
     </Modal>
-  )
-}
+  );
+};
 
-export default DeletePopup
+export default DeletePopup;

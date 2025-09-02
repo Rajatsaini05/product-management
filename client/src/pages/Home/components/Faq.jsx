@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const FaqContainer = styled.section`
-  background-color: #060B27;
+  background-color: #060b27;
   color: #fff;
   padding: 80px 0;
 `;

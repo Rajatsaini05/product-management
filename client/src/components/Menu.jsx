@@ -25,7 +25,7 @@ import { openSnackbar } from "../redux/snackbarSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUsers, notifications } from "../api/index";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Avatar, CircularProgress } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -130,21 +130,21 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
   };
 
   const [team, setTeams] = useState([]);
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
   const getteams = async () => {
     setTeamsLoading(true);
-   await getUsers(token)
+    await getUsers(token)
       .then((res) => {
         setTeams(res.data.teams);
         setTeamsLoading(false);
       })
       .catch((err) => {
         dispatch(openSnackbar({ message: err.message, type: "error" }));
-        if (err.response.status === 401 || err.response.status === 402) logoutUser();
+        if (err.response.status === 401 || err.response.status === 402)
+          logoutUser();
       });
   };
-
 
   useEffect(() => {
     getteams();
@@ -153,7 +153,15 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
   return (
     <Container setMenuOpen={setMenuOpen}>
       <Flex>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit", alignItems: 'center',display: 'flex' }}>
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
           <Logo>
             <Image src={LogoIcon} />
             VEXA
@@ -179,10 +187,7 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
             Projects
           </Item>
         </Link>
-        <Link
-          to="works"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        <Link to="works" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>
             <AddTaskRounded />
             Your Works
@@ -202,24 +207,43 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
           <Groups2Rounded /> Teams
         </Title>
         {teamsLoading ? (
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px'}}>
-            <CircularProgress size='24px' />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "12px 0px",
+            }}
+          >
+            <CircularProgress size="24px" />
           </div>
-        ) : (<>
-          {team.map((team, i) => (
-            <Link
-              to={`/teams/${team._id}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Item>
-                {team.img !== "" ?
-                  <Avatar sx={{ width: "28px", height: "28px" }} src={team.img}>{team.name[0]}</Avatar> :
-                  <TeamIcon sx={{ fontSize: "18px" }} tagColor={tagColors[i]} />}
-                {team.name}
-              </Item>
-            </Link>
-          ))}
-        </>
+        ) : (
+          <>
+            {team.map((team, i) => (
+              <Link
+                to={`/teams/${team._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Item>
+                  {team.img !== "" ? (
+                    <Avatar
+                      sx={{ width: "28px", height: "28px" }}
+                      src={team.img}
+                    >
+                      {team.name[0]}
+                    </Avatar>
+                  ) : (
+                    <TeamIcon
+                      sx={{ fontSize: "18px" }}
+                      tagColor={tagColors[i]}
+                    />
+                  )}
+                  {team.name}
+                </Item>
+              </Link>
+            ))}
+          </>
         )}
         <Item onClick={() => setNewTeam(true)}>
           <Add sx={{ fontSize: "20px" }} />
@@ -236,7 +260,7 @@ const Menu = ({ darkMode, setDarkMode, setMenuOpen, setNewTeam }) => {
         </Item>
         <Space />
       </ContainerWrapper>
-    </Container >
+    </Container>
   );
 };
 

@@ -20,7 +20,7 @@ import {
   inviteProjectMembers,
   inviteTeamMembers,
   searchUsers,
-  createTeam
+  createTeam,
 } from "../api/index";
 import { openSnackbar } from "../redux/snackbarSlice";
 import { useDispatch } from "react-redux";
@@ -206,26 +206,25 @@ const EmailId = styled.div`
   color: ${({ theme }) => theme.textSoft + "99"};
 `;
 
-
 const Flex = styled.div`
-display: flex;
-flex-direction: row;
-gap: 2px;
-@media (max-width: 768px) {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  flex-direction: row;
+  gap: 2px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Access = styled.div`
-padding: 6px 10px;
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 12px;
-background-color: ${({ theme }) => theme.bgDark};
+  padding: 6px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background-color: ${({ theme }) => theme.bgDark};
 `;
 
 const Select = styled.select`
@@ -302,7 +301,7 @@ const AddNewTeam = ({ setNewTeam }) => {
   const [role, setRole] = useState("");
   const [access, setAccess] = useState("");
   const [selectedUsers, setSelectedUsers] = React.useState([]);
-  const [inputs, setInputs] = useState({img:"", name: "", desc: "" });
+  const [inputs, setInputs] = useState({ img: "", name: "", desc: "" });
 
   const handleSearch = async (e) => {
     setSearch(e.target.value);
@@ -310,8 +309,7 @@ const AddNewTeam = ({ setNewTeam }) => {
       .then((res) => {
         if (res.status === 200) {
           setUsers(res.data);
-        }
-        else {
+        } else {
           setUsers([]);
         }
       })
@@ -328,13 +326,16 @@ const AddNewTeam = ({ setNewTeam }) => {
     };
     if (selectedUsers.find((u) => u.id === User.id)) {
     } else {
-      setSelectedUsers([...selectedUsers, {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: role,
-        access: access,
-      }]);
+      setSelectedUsers([
+        ...selectedUsers,
+        {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: role,
+          access: access,
+        },
+      ]);
       setUsers([]);
       setSearch("");
     }
@@ -367,7 +368,8 @@ const AddNewTeam = ({ setNewTeam }) => {
       selectedUsers.map((user) => {
         inviteTeamMembers(id, user, token)
           .then((res) => {
-            console.log(res); dispatch(
+            console.log(res);
+            dispatch(
               openSnackbar({
                 message: `Invitation sent to ${user.name}`,
                 type: "success",
@@ -375,7 +377,8 @@ const AddNewTeam = ({ setNewTeam }) => {
             );
           })
           .catch((err) => {
-            console.log(err); dispatch(
+            console.log(err);
+            dispatch(
               openSnackbar({
                 message: `Invitation cant be sent to ${user.name}`,
                 type: "error",
@@ -454,11 +457,11 @@ const AddNewTeam = ({ setNewTeam }) => {
 
   useEffect(() => {
     if (inputs.name === "" || inputs.desc === "") {
-      setDisabled(true)
+      setDisabled(true);
     } else {
-      setDisabled(false)
+      setDisabled(false);
     }
-  }, [inputs])
+  }, [inputs]);
 
   const dispatch = useDispatch();
 
@@ -483,7 +486,11 @@ const AddNewTeam = ({ setNewTeam }) => {
           {showAddTeam && (
             <>
               <Label>Team Details :</Label>
-              <ImageSelector inputs={inputs} setInputs={setInputs} style={{ marginTop: "12px" }}/>
+              <ImageSelector
+                inputs={inputs}
+                setInputs={setInputs}
+                style={{ marginTop: "12px" }}
+              />
               <OutlinedBox style={{ marginTop: "12px" }}>
                 <TextInput
                   placeholder="Team Name (Required)*"
@@ -516,7 +523,9 @@ const AddNewTeam = ({ setNewTeam }) => {
                 button={true}
                 activeButton={!disabled}
                 style={{ marginTop: "22px", marginBottom: "18px" }}
-                onClick={() => { !disabled && goToAddTools() }}
+                onClick={() => {
+                  !disabled && goToAddTools();
+                }}
               >
                 Next
               </OutlinedBox>
@@ -548,7 +557,9 @@ const AddNewTeam = ({ setNewTeam }) => {
                   button={true}
                   activeButton={false}
                   style={{ marginTop: "18px", width: "100%" }}
-                  onClick={() => { !backDisabled && goToAddTeam() }}
+                  onClick={() => {
+                    !backDisabled && goToAddTeam();
+                  }}
                 >
                   Back
                 </OutlinedBox>
@@ -599,8 +610,13 @@ const AddNewTeam = ({ setNewTeam }) => {
                       </UserData>
                       <Flex>
                         <Access>
-                          <Select name="Role" onChange={(e) => setAccess(e.target.value)}>
-                            <option value="" selected disabled hidden>Access</option>
+                          <Select
+                            name="Role"
+                            onChange={(e) => setAccess(e.target.value)}
+                          >
+                            <option value="" selected disabled hidden>
+                              Access
+                            </option>
                             <option value="Admin">Admin</option>
                             <option value="Member">Member</option>
                             <option value="Editor">Editor</option>
@@ -608,9 +624,17 @@ const AddNewTeam = ({ setNewTeam }) => {
                           </Select>
                         </Access>
                         <Role>
-                          <Input style={{ width: '70px', fontSize: '12px', padding: '8px 10px' }} type="text" placeholder="Role" onChange={(e) => setRole(e.target.value)} />
+                          <Input
+                            style={{
+                              width: "70px",
+                              fontSize: "12px",
+                              padding: "8px 10px",
+                            }}
+                            type="text"
+                            placeholder="Role"
+                            onChange={(e) => setRole(e.target.value)}
+                          />
                         </Role>
-
                       </Flex>
                       <InviteButton onClick={() => handleSelect(user)}>
                         Add
@@ -638,13 +662,8 @@ const AddNewTeam = ({ setNewTeam }) => {
                         </Details>
                       </UserData>
                       <Flex>
-                        <Access>
-                          {user.access}
-                        </Access>
-                        <Role style={{padding: '6px 10px'}}>
-                          {user.role}
-                        </Role>
-
+                        <Access>{user.access}</Access>
+                        <Role style={{ padding: "6px 10px" }}>{user.role}</Role>
                       </Flex>
 
                       <InviteButton onClick={() => handleRemove(user)}>
@@ -660,7 +679,9 @@ const AddNewTeam = ({ setNewTeam }) => {
                   button={true}
                   activeButton={false}
                   style={{ marginTop: "18px", width: "100%" }}
-                  onClick={() => { !backDisabled && goToAddTools() }}
+                  onClick={() => {
+                    !backDisabled && goToAddTools();
+                  }}
                 >
                   Back
                 </OutlinedBox>
@@ -668,7 +689,9 @@ const AddNewTeam = ({ setNewTeam }) => {
                   button={true}
                   activeButton={!disabled}
                   style={{ marginTop: "18px", width: "100%" }}
-                  onClick={() => { !disabled && CreateTeam() }}
+                  onClick={() => {
+                    !disabled && CreateTeam();
+                  }}
                 >
                   {Loading ? (
                     <CircularProgress color="inherit" size={20} />

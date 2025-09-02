@@ -20,6 +20,7 @@ const transporter = nodemailer.createTransport({
   },
   tls: {
     rejectUnauthorized: false, // prevent self-signed cert errors
+    servername: process.env.SMTP_HOST,
   },
 });
 

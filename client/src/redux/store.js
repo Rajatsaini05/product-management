@@ -20,7 +20,10 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer, snackbar: snackbarReducer });
+const rootReducer = combineReducers({
+  user: userReducer,
+  snackbar: snackbarReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -34,4 +37,4 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
