@@ -23,7 +23,7 @@ export const addProject = async (req, res, next) => {
         img: user.img,
         email: user.email,
         name: user.name,
-        role: "d",
+        role: "Initiator",
         access: "Owner",
       },
     ],
@@ -268,6 +268,10 @@ export const inviteProjectMember = async (req, res, next) => {
   }
   const project = await Project.findById(req.params.id);
   if (!project) return next(createError(404, "Project not found!"));
+
+  if (project.members.some((member) => member.id == req.body.id)) {
+    return next(createError(403, "User is already a member of this project!"));
+  }
 
   req.app.locals.CODE = await otpGenerator.generate(8, {
     upperCaseAlphabets: true,

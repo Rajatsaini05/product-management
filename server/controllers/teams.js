@@ -292,6 +292,10 @@ export const inviteTeamMember = async (req, res, next) => {
   const team = await Teams.findById(req.params.id);
   if (!team) return next(createError(404, "Team not found!"));
 
+  if (team.members.some((member) => member.id == req.body.id)) {
+    return next(createError(403, "User is already a member of this team!"));
+  }
+
   req.app.locals.CODE = await otpGenerator.generate(8, {
     upperCaseAlphabets: true,
     specialChars: true,

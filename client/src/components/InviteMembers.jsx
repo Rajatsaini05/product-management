@@ -220,7 +220,10 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
           setLoading(false);
         })
         .catch((err) => {
-          dispatch(openSnackbar({ message: err.message, type: "error" }));
+          // console.log(err.response);
+          dispatch(
+            openSnackbar({ message: err.response.data.message, type: "error" })
+          );
           setLoading(false);
           console.log(err);
         });
@@ -238,8 +241,9 @@ const InviteMembers = ({ setInvitePopup, id, teamInvite }) => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
-          dispatch(openSnackbar({ message: err.message, type: "error" }));
+          dispatch(
+            openSnackbar({ message: err?.response.data.message, type: "error" })
+          ); //dispatch(openSnackbar({ message: err.message, type: "error" }));
           setLoading(false);
         });
     }
